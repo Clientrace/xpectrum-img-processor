@@ -31,8 +31,16 @@ def handler(event, context):
     img_transformed = transform.resize(BASE_WIDTH, img_input)
     img_transformed.save(img_output, 'JPEG')
 
+    s3_img_dir = event['s3ImgDir'].split('/')[:len(
+        event['s3ImgDir'].split('/')
+    )-1]
     s3_output_dir = 'thumbnail_'+event['s3ImgDir'].split('/')[-1]
-    s3.save_resource(s3_output_dir, img_output.getvalue(), event['cType'] )
+    s3.save_resource(
+        s3_img_dir + '/' + s3_output_dir,
+        img_output.getvalue(),
+        event['cType'],
+        True
+    )
     
     return {
         'statusCode': 200,

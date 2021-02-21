@@ -31,7 +31,7 @@ provider:
         - s3:DeleteObject
         - s3:GetObject
       Resource: 
-        - arn:aws:s3:::${self:custom.bucketname}
+        - arn:aws:s3:::${self:custom.bucketname}/*
 
   environment:
     bucketname: ${self:custom.bucketname}
