@@ -32,10 +32,10 @@ def handler(event, context):
     img_transformed.save(img_output, 'JPEG')
 
     s3_img_dir = event['s3ImgDir'].split('/')
-    s3_output_dir = 'media/thumbnails/'+ '/.'.join(s3_img_dir[2:])
+    s3_output_dir = 'media/thumbnails/'+ '/'.join(s3_img_dir[2:])
 
     s3.save_resource(
-        s3_img_dir + '/' + s3_output_dir,
+        s3_output_dir,
         img_output.getvalue(),
         event['cType'],
         True
