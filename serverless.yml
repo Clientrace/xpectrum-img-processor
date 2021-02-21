@@ -19,7 +19,7 @@ package:
 
 provider:
   name: aws
-  runtime: python3.7
+  runtime: python3.8
   stage: ${opt:stage, 'dev'}
   region: ap-southeast-1
 
@@ -40,8 +40,8 @@ custom:
   bucketname: "tac-cms-bucket-dev"
 
 functions:
-  xpectrum_img_processor_api:
-    handler: src/xpectrum_img_processor_api.handler    
+  img_resize:
+    handler: src/scripts/img_resize.handler    
     layers: 
       - ${file(awsconfig.json):layer_arn}
     timeout: 900
