@@ -3,9 +3,10 @@
 # This YML File uses 'awsconfig.json' file on the root directory
 # for the configurations.
 # awsconfig:
-#   s3ResourceBucket: <bucket for the images>
+#   bucket_name: <bucket for the images>
+#   bucket_arn: <bucket for the images>
 
-service: xpectrum-image-processo:r
+service: xpectrum-image-processor
 
 package:
   exclude:
@@ -29,31 +30,20 @@ provider:
         - s3:PutObjectAcl
         - s3:DeleteObject
         - s3:GetObject
-      Resource: ${file(awsconfig.json):bucket_arn}
+      Resource: 
+        - arn:aws:s3:::${self:custom.bucketname}
+
   environment:
-    bucketname: ${file(awsconfig.json):bucketname}
+    bucketname: ${self:custom.bucketname}
+
+custom:
+  bucketname: "tac-cms-bucket-dev"
 
 functions:
   xpectrum_img_processor_api:
     handler: src/xpectrum_img_processor_api.handler    
-
-  xpectrum_img_s3_auto_resizer:
-    handler: src/xpectrum_img_s3_auto_resizer.handler
-    events:
-      - s3:
-          bucket: ${file(config.json:bucket_name)}
-          events: s3:ObjectCreated:*
-          rules:
-            - prefix: media/
-            - suffix:
-              - jpg
-              - jpeg
-              - png
-
     layers: 
-      - arn:aws:lambda:ap-southeast-1:940508673835:layer:image-processing:1
+      - ${file(awsconfig.json):layer_arn}
     timeout: 900
-
-
 
 
