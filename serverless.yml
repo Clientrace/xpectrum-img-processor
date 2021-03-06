@@ -37,13 +37,13 @@ provider:
     bucketname: ${self:custom.bucketname}
 
 custom:
-  bucketname: "tac-cms-bucket-dev"
+  bucketname: recursion-cms-bucket-${self:provider.stage}
 
 functions:
   img_resize:
     handler: src/scripts/img_resize.handler    
     layers: 
       - ${file(awsconfig.json):layer_arn}
+    memorySize: 
     timeout: 900
-
 

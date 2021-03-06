@@ -6,7 +6,7 @@ from src.aws.s3 import S3
 from src.img_processor import transform
 
 global BASE_WIDTH
-BASE_WIDTH = 450
+BASE_WIDTH = 700
 
 def handler(event, context):
     global BASE_WIDTH
@@ -23,6 +23,7 @@ def handler(event, context):
     s3 = S3(
         bucketName = os.environ['bucketname']
     )
+    print(event)
     image_raw = s3.load_resource_bytes(key=event['s3ImgDir'])
     img_input = io.BytesIO(image_raw)
     img_output = io.BytesIO()
@@ -32,7 +33,7 @@ def handler(event, context):
     img_transformed.save(img_output, 'JPEG')
 
     s3_img_dir = event['s3ImgDir'].split('/')
-    s3_output_dir = 'media/thumbnails/'+ '/'.join(s3_img_dir[2:])
+    s3_output_dir = 'media/thumbnails/'+ event['group'] +'/'.join(s3_img_dir[2:])
 
     s3.save_resource(
         s3_output_dir,
@@ -47,3 +48,6 @@ def handler(event, context):
             'msg': 'OK'
         })
     }
+
+
+
