@@ -30,7 +30,7 @@ def handler(event, context):
 
 
     img_transformed = transform.resize(BASE_WIDTH, img_input)
-    img_transformed.save(img_output, 'JPEG')
+    img_transformed.save(img_output, img_input.format)
 
     s3_img_dir = event['s3ImgDir'].split('/')
     s3_output_dir = 'media/thumbnails/'+'/'.join(s3_img_dir[2:])

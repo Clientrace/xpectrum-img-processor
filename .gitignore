@@ -20,3 +20,7 @@ var/
 .serverless
 
 awsconfig.json
+
+*.png
+*.jpg
+*.jpeg

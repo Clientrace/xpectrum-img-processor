@@ -2,8 +2,7 @@
 from PIL import Image
 
 
-def resize(base_width, img_blob):
-    img = Image.open(img_blob)
+def resize(base_width, img):
     img.convert('RGB')
     img_width, img_height = img.size
 
